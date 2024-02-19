@@ -23,7 +23,7 @@ var weather: ResponseBody
                 Image("rain")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 200)
+                    .frame(width: 180)
                 
                 VStack {
                     Text("\(weather.main.feelsLike.roundDouble())")
