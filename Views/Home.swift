@@ -12,8 +12,16 @@ struct Home: View {
     
     var body: some View {
         VStack {
-            Welcome()
-                .environmentObject(locationManager)
+            if let location = locationManager.location {
+                Text("Longitude: \(location.longitude), Latitude \(location.latitude)")
+            } else {
+                if locationManager.isLoading {
+                    ProgressView()
+                } else {
+                    Welcome()
+                        .environmentObject(locationManager)
+                }
+            }
         }
         .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: .infinity)
         .background(LinearGradient(colors: [Color("light"), Color("dark")], startPoint: .topLeading, endPoint: .bottomTrailing))

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreLocationUI
 
 struct Welcome: View {
     @EnvironmentObject var locationManager: LocationManager
@@ -21,7 +22,11 @@ struct Welcome: View {
             .multilineTextAlignment(.center)
             .padding()
             
-            
+            LocationButton(.shareCurrentLocation) {
+                locationManager.requestLocation()
+            }
+            .cornerRadius(30)
+            .foregroundStyle(.white)
         }
     }
 }
