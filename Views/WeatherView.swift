@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct WeatherView: View {
-    // var weather: ResponseBody
+var weather: ResponseBody
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Stockholm,\nSweden")
+            Text("\(weather.name)")
                 .font(.system(size: 36, weight: .semibold))
             
-            Text("Tue, Jan 30")
+            Text("\(Date().formatted(.dateTime.month().day()))")
                 .font(.system(size: 20))
                 .opacity(0.5)
             
@@ -26,10 +26,10 @@ struct WeatherView: View {
                     .frame(width: 200)
                 
                 VStack {
-                    Text("19")
+                    Text("\(weather.main.feelsLike.roundDouble())")
                         .font(.system(size: 86, weight: .semibold))
                     
-                    Text("Rainy")
+                    Text("\(weather.weather[0].main)")
                         .font(.system(size: 26))
                 }
                 .padding(.leading)
@@ -40,10 +40,10 @@ struct WeatherView: View {
             
             // Add Cards to show humidity, wind etc.
             Spacer()
-            CardView(icon: "thermometer", text: "Min temp", value: 12.0)
-            CardView(icon: "thermometer", text: "Max temp", value: 12.0)
-            CardView(icon: "wind", text: "Wind speed", value: 12.0)
-            CardView(icon: "humidity", text: "Humidity", value: 12.0)
+            CardView(icon: "thermometer", text: "Min temp", value: weather.main.tempMin.roundDouble() + "*" )
+            CardView(icon: "thermometer", text: "Max temp", value: weather.main.tempMax.roundDouble() + "*")
+            CardView(icon: "wind", text: "Wind speed", value: weather.wind.speed.roundDouble() + "m/s")
+            CardView(icon: "humidity", text: "Humidity", value: weather.main.humidity.roundDouble() + "%")
             
         }
         .padding()
@@ -53,7 +53,7 @@ struct WeatherView: View {
 }
 
 #Preview {
-    WeatherView()
+    WeatherView(weather: previewWeather)
 }
 
 // Create the Extension to transform Double into Decimal
@@ -66,7 +66,7 @@ extension Double {
 struct CardView : View {
     var icon: String
     var text: String
-    var value: Double
+    var value: String
     
     var body: some View {
         HStack(spacing: 20 ) {
@@ -81,7 +81,7 @@ struct CardView : View {
             
             Spacer()
             
-            Text("\(value.roundDouble())")
+            Text("\(value)")
                 .font(.headline)
         }
         .padding(.horizontal)
