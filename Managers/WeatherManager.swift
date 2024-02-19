@@ -13,7 +13,7 @@ class WeatherManager {
     // Open Weather API : 9bdbc17b9f2e89e8f67814360356095d
 
     
-    func getCurrentWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees) async throws {
+    func getCurrentWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees) async throws -> ResponseBody {
         guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=9bdbc17b9f2e89e8f67814360356095d&units=metric") else { fatalError("Something Went wrong...") }
         
         let urlRequest = URLRequest(url: url)
@@ -21,6 +21,10 @@ class WeatherManager {
         let (data, res) = try await URLSession.shared.data(for: urlRequest)
         
         guard (res as? HTTPURLResponse)?.statusCode == 200 else { fatalError("Error fetching weather data!") }
+        
+        let decodedData = try JSONDecoder().decode(ResponseBody.self, from: data)
+        
+        return decodedData
     }
 }
 
