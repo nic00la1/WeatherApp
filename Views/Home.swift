@@ -17,7 +17,7 @@ struct Home: View {
         VStack {
             if let location = locationManager.location {
                 if let weather = weather {
-                    Text("Weather fetched!")
+                    WeatherView()
                 } else {
                     ProgressView()
                         .task {
